@@ -13,6 +13,9 @@
         "assets": {
           "elementManifests": [
             "elements.xml"
+          ],
+          "elementFiles":[
+            "listSchema.xml"
           ]
         }
       }

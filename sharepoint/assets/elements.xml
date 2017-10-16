@@ -1,9 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!-- List of possible elements expected: 
+        'CustomAction, ClientWebPart, ClientSideComponent, 
+        Field, ContentType, ListInstance, Module, PropertyBag' 
+    -->
+
     <CustomAction
         Title="MegaMenu"
         Location="ClientSideExtension.ApplicationCustomizer"
         ClientSideComponentId="480b6479-38e2-432f-bb7a-c72287807553"
         ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
     </CustomAction>
+
+    <!-- Mega Menu Category Site Column -->
+    <Field ID="{f4e5dd71-448f-40e2-b991-35874a0d7fd6}" 
+           Name="MegaMenuCategory" 
+           DisplayName="Mega Menu Category"
+           Group="Mega Menu Site Columns" 
+           Type="Text" 
+           Required="TRUE" 
+           />
+    
+    <!-- Mega Menu Item Name Site Column -->
+    <Field ID="{0ad9d45c-b110-4635-b149-2890aa3a2515}" 
+           Name="MegaMenuItemName" 
+           DisplayName="Mega Menu Item Name"
+           Group="Mega Menu Site Columns" 
+           Type="Text" 
+           Required="TRUE" 
+           />
+
+    <!-- Mega Menu Item Url Site Column -->
+    <Field ID="{0ad9d45c-b110-4635-b149-2890aa3a2513}" 
+           Name="MegaMenuItemUrl" 
+           DisplayName="Mega Menu Item Url"
+           Group="Mega Menu Site Columns" 
+           Type="Text" 
+           Required="TRUE" 
+           />
+
+    <!-- Mega Menu ContentType: Item (0x0100) -->
+    <!-- Parent ContentType: Item (0x0100) -->
+    <ContentType ID="0x0100CEADAD40C6630B489BDF172555628DA0"
+                 Name="Mega Menu Item"
+                 Group="Mega Menu Content Types"
+                 Description=""
+                 Inherits="FALSE"
+                 Version="0"
+                 Hidden="FALSE"
+                 Sealed="TRUE"
+                 >
+        <FieldRefs>
+            <!-- MegaMenuCategory Site Column -->
+            <FieldRef ID="{f4e5dd71-448f-40e2-b991-35874a0d7fd6}" Required="TRUE" ShowInNewForm="TRUE" ShowInEditForm="TRUE" />
+            <!-- MegaMenuItemName Site Column -->
+            <FieldRef ID="{0ad9d45c-b110-4635-b149-2890aa3a2515}" Required="TRUE" ShowInNewForm="TRUE" ShowInEditForm="TRUE" />
+            <!-- MegaMenuItemUrl Site Column -->
+            <FieldRef ID="{0ad9d45c-b110-4635-b149-2890aa3a2513}" Required="TRUE" ShowInNewForm="TRUE" ShowInEditForm="TRUE" />
+        </FieldRefs>
+    </ContentType> 
+
+    <!-- Mega Menu List (TemplateType 100) -->
+    <ListInstance 
+            CustomSchema="listSchema.xml"
+            FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+            Title="Mega Menu List" 
+            Description=""
+            TemplateType="100"
+            Url="Lists/MegaMenu"
+            Hidden="FALSE">
+            <!-- Add default data with the list -->
+            <!-- Note: Deactivating and activating the feature will 
+            duplicate the data, so remove or comment if no initial data needed
+            -->
+            <Data>
+                <Rows>
+                    <Row>
+                        <Field Name="MegaMenuCategory">Category1</Field>
+                        <Field Name="MegaMenuItemName">Site Pages Url</Field>
+                        <!-- Usage of Special Tokens (~site and ~sitecollection)
+                        Source: https://dev.office.com/sharepoint/docs/general-development/urls-and-tokens-in-sharepoint -->
+                        <Field Name="MegaMenuItemUrl">~site/SitePages/Forms/ByAuthor.aspx, URL Title1</Field>
+                    </Row>
+                    <Row>
+                        <Field Name="MegaMenuCategory">Category2</Field>
+                        <Field Name="MegaMenuItemName">Site Pages Url</Field>
+                        <!-- Usage of Special Tokens (~site and ~sitecollection)
+                        Source: https://dev.office.com/sharepoint/docs/general-development/urls-and-tokens-in-sharepoint -->
+                        <Field Name="MegaMenuItemUrl">~site/SitePages/Forms/ByAuthor.aspx, URL Title2</Field>
+                    </Row>
+                </Rows>
+            </Data>
+    </ListInstance>
 </Elements>
