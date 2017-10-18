@@ -1,7 +1,7 @@
 export class MenuItem {
 
-    id: number;
-    category: string;
-    name: string;
-    url: string;
+   public id: number;
+   public category: string;
+   public name: string;
+   public url: string;
 }

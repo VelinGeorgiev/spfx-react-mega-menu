@@ -2,7 +2,7 @@ import { IMenuProvider, MenuItem } from "./index";
 
 export class MenuFakeProvider implements IMenuProvider {
 
-    getAllItems(): Promise<MenuItem[]> {
+    public getAllItems(): Promise<MenuItem[]> {
         return new Promise<MenuItem[]>((resolve, reject) => {
 
             let result: MenuItem[] = [

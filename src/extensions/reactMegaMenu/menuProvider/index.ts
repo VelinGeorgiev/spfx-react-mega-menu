@@ -1,3 +1,3 @@
 export * from "./IMenuProvider";
-export * from "./IMenuFakeProvider";
+export * from "./MenuFakeProvider";
 export * from "./MenuItem";
