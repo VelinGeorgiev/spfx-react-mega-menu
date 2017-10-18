@@ -1,32 +1,32 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import {
-  Button,
-  ButtonType
-} from 'office-ui-fabric-react';
-import { Log } from '@microsoft/sp-core-library';
+  IconButton
+} from "office-ui-fabric-react";
 
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
-import { IMegaMenuProps } from './IMegaMenuProps';
-import { IMegaMenuState } from './IMegaMenuState';
+import { Log } from "@microsoft/sp-core-library";
 
-const STORAGE_KEY: string = 'ReactMegaMenuApplicationCustomizer';
-const LOG_SOURCE: string = 'ReactMegaMenuApplicationCustomizer_MegaMenuComponent';
+import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { IMegaMenuProps } from "./IMegaMenuProps";
+import { IMegaMenuState } from "./IMegaMenuState";
+
+const STORAGE_KEY: string = "ReactMegaMenuApplicationCustomizer";
+const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer_MegaMenuComponent";
 
 export default class MegaMenuComponent extends React.Component<IMegaMenuProps, IMegaMenuState> {
-  
+
   constructor(props: IMegaMenuProps) {
     super(props);
 
     this.state = {};
 
-    // Log.error(LOG_SOURCE, new Error(`Error loading announcements: ${error}`));
+    // log.error(LOG_SOURCE, new Error(`Error loading announcements: ${error}`));
   }
 
   public render(): React.ReactElement<IMegaMenuProps> {
     return (
         <div className="ms-Grid">
-            Test 123
+            <IconButton iconProps={ { iconName: "Home" } } />
         </div>
     );
   }

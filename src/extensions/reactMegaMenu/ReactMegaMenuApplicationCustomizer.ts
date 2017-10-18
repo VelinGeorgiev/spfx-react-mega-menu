@@ -1,20 +1,21 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import { override } from '@microsoft/decorators';
-import { Log } from '@microsoft/sp-core-library';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { override } from "@microsoft/decorators";
+import { Log } from "@microsoft/sp-core-library";
 import {
   BaseApplicationCustomizer,
   PlaceholderContent,
   PlaceholderName
-} from '@microsoft/sp-application-base';
+} from "@microsoft/sp-application-base";
 
-import * as strings from 'ReactMegaMenuApplicationCustomizerStrings';
+import * as strings from "ReactMegaMenuApplicationCustomizerStrings";
 
-import MegaMenuComponent from './components/MegaMenuComponent';
-import { IMegaMenuProps } from './components/IMegaMenuProps';
-import Placeholder from '@microsoft/sp-application-base/lib/extensibility/Placeholder';
+import MegaMenuComponent from "./components/MegaMenuComponent";
+import { IMegaMenuProps } from "./components/IMegaMenuProps";
+import Placeholder from "@microsoft/sp-application-base/lib/extensibility/Placeholder";
+import { MenuFakeProvider } from "./menuProvider/MenuFakeProvider";
 
-const LOG_SOURCE: string = 'ReactMegaMenuApplicationCustomizer';
+const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer";
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -22,7 +23,7 @@ const LOG_SOURCE: string = 'ReactMegaMenuApplicationCustomizer';
  * You can define an interface to describe it.
  */
 export interface IReactMegaMenuApplicationCustomizerProperties {
-  // This is an example; replace with your own property
+  // this is an example; replace with your own property
   testMessage: string;
 }
 
@@ -34,15 +35,20 @@ export default class ReactMegaMenuApplicationCustomizer
   public onInit(): Promise<void> {
     Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
 
-    let placeholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
-    
+    let placeholder: PlaceholderContent;
+    placeholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
+
     const element: React.ReactElement<IMegaMenuProps> = React.createElement(
-      MegaMenuComponent, {}
+      MegaMenuComponent,
+      {
+        menuProvider: new MenuFakeProvider()
+
+      }
     );
 
     console.log("Lets render.");
     console.dir(placeholder.domElement);
-    
+
     ReactDom.render(element, placeholder.domElement);
 
     return Promise.resolve();
