@@ -1,8 +1,8 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx/client-side-extension-manifest.schema.json",
 
-  "id": "480b6479-38e2-432f-bb7a-c72287807553",
-  "alias": "MegaMenuApplicationCustomizer",
+  "id": "6a4a81ba-4704-463b-98eb-1d1bfa710744",
+  "alias": "ReactMegaMenuApplicationCustomizer",
   "componentType": "Extension",
   "extensionType": "ApplicationCustomizer",
 

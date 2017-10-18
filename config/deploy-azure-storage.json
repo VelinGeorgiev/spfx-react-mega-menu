@@ -2,6 +2,6 @@
   "$schema": "https://dev.office.com/json-schemas/spfx-build/deploy-azure-storage.schema.json",
   "workingDir": "./temp/deploy/",
   "account": "<!-- STORAGE ACCOUNT NAME -->",
-  "container": "mega-menu",
+  "container": "react-mega-menu",
   "accessKey": "<!-- ACCESS KEY -->"
 }

@@ -1,4 +1,4 @@
-## mega-menu
+## react-mega-menu
 
 This is where you include your WebPart documentation.
 

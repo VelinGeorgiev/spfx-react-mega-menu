@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
-    <!-- List of possible elements expected: 
+	<!-- List of possible elements expected: 
         'CustomAction, ClientWebPart, ClientSideComponent, 
         Field, ContentType, ListInstance, Module, PropertyBag' 
     -->
-
+	
     <CustomAction
-        Title="MegaMenu"
+        Title="ReactMegaMenu"
         Location="ClientSideExtension.ApplicationCustomizer"
-        ClientSideComponentId="480b6479-38e2-432f-bb7a-c72287807553"
+        ClientSideComponentId="6a4a81ba-4704-463b-98eb-1d1bfa710744"
         ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
     </CustomAction>
-
-    <!-- Mega Menu Category Site Column -->
+	
+	<!-- Mega Menu Category Site Column -->
     <Field ID="{f4e5dd71-448f-40e2-b991-35874a0d7fd6}" 
            Name="MegaMenuCategory" 
            DisplayName="Mega Menu Category"

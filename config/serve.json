@@ -6,7 +6,7 @@
     "default": {
       "pageUrl": "https://contoso.sharepoint.com/sites/mySite/SitePages/myPage.aspx",
       "customActions": {
-        "480b6479-38e2-432f-bb7a-c72287807553": {
+        "6a4a81ba-4704-463b-98eb-1d1bfa710744": {
           "location": "ClientSideExtension.ApplicationCustomizer",
           "properties": {
             "testMessage": "Test message"
@@ -14,10 +14,10 @@
         }
       }
     },
-    "megaMenu": {
+    "reactMegaMenu": {
       "pageUrl": "https://contoso.sharepoint.com/sites/mySite/SitePages/myPage.aspx",
       "customActions": {
-        "480b6479-38e2-432f-bb7a-c72287807553": {
+        "6a4a81ba-4704-463b-98eb-1d1bfa710744": {
           "location": "ClientSideExtension.ApplicationCustomizer",
           "properties": {
             "testMessage": "Test message"

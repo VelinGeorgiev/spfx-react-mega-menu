@@ -1,14 +1,14 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "mega-menu-client-side-solution",
-    "id": "91f6ee6e-ff4c-4b8a-a3dd-33d23ef3988b",
+    "name": "react-mega-menu-client-side-solution",
+    "id": "466eb049-ab57-4a5d-ae51-0a8221cdb984",
     "version": "1.0.0.0",
     "features": [
       {
         "title": "Application Extension - Deployment of custom action.",
         "description": "Deploys a custom action with ClientSideComponentId association",
-        "id": "1e5c3e21-0651-47d7-a85d-078e228c5cc1",
+        "id": "0582bd9b-5570-4698-8ac8-a2aee2801bad",
         "version": "1.0.0.0",
         "assets": {
           "elementManifests": [
@@ -22,6 +22,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/mega-menu.sppkg"
+    "zippedPackage": "solution/react-mega-menu.sppkg"
   }
 }
