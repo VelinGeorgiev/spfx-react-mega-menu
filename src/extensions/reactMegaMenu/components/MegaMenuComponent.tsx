@@ -4,19 +4,11 @@ import {
   DefaultButton
 } from "office-ui-fabric-react/lib/Button";
 import { Panel, PanelType } from "office-ui-fabric-react/lib/Panel";
-import { List } from "office-ui-fabric-react/lib/List";
 
-import { Log } from "@microsoft/sp-core-library";
-
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { IMegaMenuProps } from "./IMegaMenuProps";
 import { IMegaMenuState } from "./IMegaMenuState";
-import { MenuItem } from "../menuProvider/index";
+import { MenuCategory, MenuItem } from "../menuProvider/index";
 import styles from "./MegaMenuComponent.module.scss";
-
-const STORAGE_KEY: string = "ReactMegaMenuApplicationCustomizer";
-const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer_MegaMenuComponent";
-
 
 export default class MegaMenuComponent extends React.Component<IMegaMenuProps, IMegaMenuState> {
 
@@ -27,13 +19,11 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
       showPanel: true,
       menuItems: []
     };
-
-    // log.error(LOG_SOURCE, new Error(`Error loading announcements: ${error}`));
   }
 
   public componentDidMount(): void {
 
-    this.props.menuProvider.getAllItems().then((result: MenuItem[]) => {
+    this.props.menuProvider.getAllItems().then((result: MenuCategory[]) => {
 
       this.setState((prevState: IMegaMenuState, props: IMegaMenuProps): IMegaMenuState => {
         prevState.menuItems = result;
@@ -57,15 +47,23 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
           onDismiss={this.hideMenu.bind(this)}
           headerText="SPFx React Mega Menu"
         >
-        <div className="ms-Grid">
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col">
+        <div className={styles.grid}>
+          <div className={`${styles.row}`}>
           {
-            this.state.menuItems.map((item: MenuItem) => {
-              return <span className={styles.menuItem}>{item.name} | </span>;
+            this.state.menuItems.map((menuCategory: MenuCategory) => {
+              return <div className={styles.col6}>
+                        <div className={`${styles.categoryItem}`}>
+                          {menuCategory.category}
+                        </div>
+                        {menuCategory.items.map((item: MenuItem) => {
+                           return <div className={styles.menuItem}>
+                              <a href={item.url}>{item.name}</a>
+                              </div>;
+                        })
+                      }
+                      </div>;
             })
           }
-          </div>
           </div>
         </div>
         </Panel>

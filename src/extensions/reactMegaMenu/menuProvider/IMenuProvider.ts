@@ -1,6 +1,6 @@
-import { MenuItem } from "./MenuItem";
+import { MenuCategory } from "./MenuCategory";
 
 export interface IMenuProvider {
 
-    getAllItems(): Promise<MenuItem[]>;
+    getAllItems(): Promise<MenuCategory[]>;
 }

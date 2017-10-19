@@ -1,6 +1,6 @@
-import { MenuItem } from "../menuProvider/MenuItem";
+import { MenuCategory } from "../menuProvider/MenuCategory";
 
 export interface IMegaMenuState {
     showPanel: boolean;
-    menuItems: MenuItem[];
+    menuItems: MenuCategory[];
 }
