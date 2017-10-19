@@ -43,7 +43,7 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
         />
 
         <Panel isOpen={this.state.showPanel}
-          type={PanelType.smallFluid}
+          type={PanelType.smallFluid} headerClassName={styles.topPanel}
           onDismiss={this.hideMenu.bind(this)}
           headerText="SPFx React Mega Menu"
         >
