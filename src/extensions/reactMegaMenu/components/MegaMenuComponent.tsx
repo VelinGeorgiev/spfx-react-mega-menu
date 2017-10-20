@@ -35,10 +35,10 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
   public render(): React.ReactElement<IMegaMenuProps> {
     return (
       <div>
-        <DefaultButton
-          iconProps={{ iconName: "Emoji2" }}
-          title="Emoji"
-          ariaLabel="Emoji"
+        <DefaultButton className={styles.menuButton}
+          title="SPFx React Mega Menu"
+          text="SPFx React Mega Menu"
+          ariaLabel="SPFx React Mega Menu"
           onClick={this.showMenu.bind(this)}
         />
 

@@ -1,6 +1,10 @@
 $themePrimary: '[theme:themePrimary, default:#004578]';
 $themeWhite: '[theme:white, default:white]';
 
+.menuButton {
+  width: 208px;
+}
+
 .topPanel {
   color: $themePrimary;
 }
