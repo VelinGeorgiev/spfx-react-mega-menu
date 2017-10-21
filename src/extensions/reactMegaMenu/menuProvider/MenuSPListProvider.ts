@@ -43,26 +43,20 @@ export class MenuSPListProvider implements IMenuProvider {
 
             let result: MenuCategory[] = [];
 
-            console.log("this._sessionStorageCacheEnabled");
-            console.log(this._sessionStorageCacheEnabled);
             if(this._sessionStorageCacheEnabled) {
 
                 result = this._fetchFromSessionStorge();
                 if(result.length) {
-                    console.log("Got the result from session storage.");
                     return resolve(result);
                 }
             }
 
-            console.log("After session step.");
             // session storage is disabled, empty or corrupt so fetch menu items from the SharePoint list.
             this._fetchFromSPList().then((items:Item[]) => {
 
                 result = this._groupByCategory(items);
 
                 if(this._sessionStorageCacheEnabled) {
-
-                    console.log("window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);");
 
                     // cache for the session for quick access.
                     let jsonToString: string = JSON.stringify(result);

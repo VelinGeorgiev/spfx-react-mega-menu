@@ -60,7 +60,7 @@ export default class ReactMegaMenuApplicationCustomizer
     let placeholder: PlaceholderContent;
     placeholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
 
-    // init the react component.
+    // init the react mega menu component.
     const element: React.ReactElement<IMegaMenuProps> = React.createElement(
       MegaMenuComponent,
       {
@@ -76,31 +76,21 @@ export default class ReactMegaMenuApplicationCustomizer
 
   protected getMenuProvider(): IMenuProvider {
 
-    let result: IMenuProvider;
-    let debug: boolean = this.properties.isDebug;
-    let rootWebOnly: boolean = this.properties.rootWebOnly;
-    let enableSessionStorageCache: boolean = this.properties.enableSessionStorageCache;
+    if (this.properties.isDebug) {
 
-    if (debug === true) {
-
-      result = new MenuFakeProvider();
-
-    } else {
-
-        let webUrl: string = "";
-
-        if (rootWebOnly === true) {
-          // is rootWebOnly property enabled then will try to search for
-          // the SharePoint mega menu list items in the root site of the site collection.
-          webUrl = this.context.pageContext.site.absoluteUrl;
-        } else {
-          // get the current web absolute url.
-          webUrl = this.context.pageContext.web.absoluteUrl;
-        }
-
-        result = new MenuSPListProvider(webUrl, enableSessionStorageCache);
+      return new MenuFakeProvider();
     }
 
-    return result;
+    // get the current web absolute url by default.
+    let webUrl: string = this.context.pageContext.web.absoluteUrl;
+
+    if (this.properties.rootWebOnly) {
+
+      // if rootWebOnly property enabled then use
+      // the SharePoint root web mega menu list.
+      webUrl = this.context.pageContext.site.absoluteUrl;
+    }
+
+    return new MenuSPListProvider(webUrl, this.properties.enableSessionStorageCache);
   }
 }

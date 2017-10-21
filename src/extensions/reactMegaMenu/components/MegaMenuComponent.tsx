@@ -23,6 +23,7 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
 
   public componentDidMount(): void {
 
+    // get the mega menu items and update the component state.
     this.props.menuProvider.getAllItems().then((result: MenuCategory[]) => {
 
       this.setState((prevState: IMegaMenuState, props: IMegaMenuProps): IMegaMenuState => {
@@ -48,20 +49,24 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
           headerText="SPFx React Mega Menu"
         >
         <div className={styles.grid}>
-          <div className={`${styles.row}`}>
+          <div className={styles.row}>
           {
             this.state.menuItems.map((menuCategory: MenuCategory) => {
               return <div className={styles.col6}>
-                        <div className={`${styles.categoryItem}`}>
+
+                        <div className={styles.categoryItem}>
                           {menuCategory.category}
                         </div>
-                        {menuCategory.items.map((item: MenuItem) => {
-                           return <div className={styles.menuItem}>
-                              <a href={item.url}>{item.name}</a>
-                              </div>;
-                        })
-                      }
-                      </div>;
+
+                        {
+                          menuCategory.items.map((item: MenuItem) => {
+
+                            return <div className={styles.menuItem}>
+                                      <a href={item.url}>{item.name}</a>
+                                    </div>;
+                          })
+                        }
+                    </div>;
             })
           }
           </div>
