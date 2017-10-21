@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import { override } from "@microsoft/decorators";
-import { Log } from "@microsoft/sp-core-library";
 import {
   BaseApplicationCustomizer,
   PlaceholderContent,
@@ -13,9 +12,7 @@ import * as strings from "ReactMegaMenuApplicationCustomizerStrings";
 import MegaMenuComponent from "./components/MegaMenuComponent";
 import { IMegaMenuProps } from "./components/IMegaMenuProps";
 import Placeholder from "@microsoft/sp-application-base/lib/extensibility/Placeholder";
-import { MenuFakeProvider } from "./menuProvider/MenuFakeProvider";
-
-const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer";
+import { IMenuProvider, MenuSPListProvider, MenuFakeProvider } from "./menuProvider/index";
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -23,8 +20,11 @@ const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer";
  * You can define an interface to describe it.
  */
 export interface IReactMegaMenuApplicationCustomizerProperties {
-  // this is an example; replace with your own property
-  testMessage: string;
+  // if debug enabled then the customizer will use fake json data instead of
+  // existing sharepoitn list.
+  debug: boolean;
+  // should collect from the root mega menu list only.
+  rootWebOnly : boolean;
 }
 
 /** A Custom Action which can be run during execution of a Client Side Application */
@@ -33,24 +33,50 @@ export default class ReactMegaMenuApplicationCustomizer
 
   @override
   public onInit(): Promise<void> {
-    Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
 
     let placeholder: PlaceholderContent;
     placeholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
 
+    // init the react component.
     const element: React.ReactElement<IMegaMenuProps> = React.createElement(
       MegaMenuComponent,
       {
         menuProvider: new MenuFakeProvider()
-
       }
     );
 
-    console.log("Lets render.");
-    console.dir(placeholder.domElement);
-
+    // render the react element in the top placeholder.
     ReactDom.render(element, placeholder.domElement);
 
     return Promise.resolve();
+  }
+
+  protected getMenuProvider(): IMenuProvider {
+
+    let result: IMenuProvider;
+    let debug: boolean = this.properties.debug;
+    let rootWebOnly: boolean = this.properties.rootWebOnly;
+
+    if (debug === true) {
+
+      result = new MenuFakeProvider();
+
+    } else {
+
+        let webUrl: string = "";
+
+        if (rootWebOnly === true) {
+          // is rootWebOnly property enabled then will try to search for
+          // the SharePoint mega menu list items in the root site of the site collection.
+          webUrl = this.context.pageContext.site.absoluteUrl;
+        } else {
+          // get the current web absolute url.
+          webUrl = this.context.pageContext.web.absoluteUrl;
+        }
+
+        result = new MenuSPListProvider(webUrl);
+    }
+
+    return result;
   }
 }

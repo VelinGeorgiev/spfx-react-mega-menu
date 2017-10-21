@@ -9,7 +9,7 @@
         Title="ReactMegaMenu"
         Location="ClientSideExtension.ApplicationCustomizer"
         ClientSideComponentId="6a4a81ba-4704-463b-98eb-1d1bfa710744"
-        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+        ClientSideComponentProperties="{&quot;debug&quot;:&quot;false&quot;, &quot;rootWebOnly&quot;:&quot;false&quot;}">
     </CustomAction>
 	
 	<!-- Mega Menu Category Site Column -->
