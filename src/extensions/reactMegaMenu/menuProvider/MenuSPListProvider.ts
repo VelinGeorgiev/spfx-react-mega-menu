@@ -61,7 +61,7 @@ export class MenuSPListProvider implements IMenuProvider {
 
                     // cache for the session for quick access.
                     let jsonToString: string = JSON.stringify(result);
-                    window.sessionStorage.setItem(, jsonToString);
+                    window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);
                 }
 
                 return resolve(result);
