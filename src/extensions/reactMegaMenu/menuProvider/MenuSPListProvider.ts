@@ -8,7 +8,7 @@ const LOG_SOURCE: string = "ReactMegaMenuApplicationCustomizer_MenuSPListProvide
 /**
  * Mega Menu items SharePoint list provider.
  * Gets data from SharePoint list to populate the mega menu.
- * Caches that data in browser session storage to speed up
+ * Can cache menu items in browser session storage to speed up
  * the menu load.
  */
 export class MenuSPListProvider implements IMenuProvider {
@@ -19,13 +19,19 @@ export class MenuSPListProvider implements IMenuProvider {
     private readonly _webAbsoluteUrl: string;
 
     /**
+     * Enables or disables session storage as caching mechanism.
+     */
+    private readonly _sessionStorageCacheEnabled: boolean;
+
+    /**
      * Browser session storage unique key.
      */
     private readonly _sessionStorageKey: string = "MegaMenuFormattedList";
 
-    constructor(webAbsoluteUrl: string) {
+    constructor(webAbsoluteUrl: string, enableSessionStorageCache: boolean = false) {
 
         this._webAbsoluteUrl = webAbsoluteUrl;
+        this._sessionStorageCacheEnabled = enableSessionStorageCache;
     }
 
     /**
@@ -37,56 +43,99 @@ export class MenuSPListProvider implements IMenuProvider {
 
             let result: MenuCategory[] = [];
 
-            // get the list items from the session storage if available.
-            let stringResult: string = window.sessionStorage.getItem(this._sessionStorageKey);
+            console.log("this._sessionStorageCacheEnabled");
+            console.log(this._sessionStorageCacheEnabled);
+            if(this._sessionStorageCacheEnabled) {
 
-            if (stringResult) {
-
-                result = JSON.parse(stringResult);
-
-            } else {
-
-                // session storage is empty so call the SharePoint list
-                // and store to session storage for quick access.
-
-                let web: Web = new Web(this._webAbsoluteUrl);
-
-                web.lists.ensure("Mega Menu List")
-                    .then((listResult: ListEnsureResult) => {
-
-                        listResult.list.items
-                            .select("ID", "MegaMenuCategory", "MegaMenuItemName", "MegaMenuItemUrl")
-                            .get()
-                            .then((items: Item[]) => {
-
-                                result = this._map(items);
-
-                                // cache for the session for quick access.
-                                let jsonToString: string = JSON.stringify(result);
-                                window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);
-                            })
-                            .catch(error => {
-
-                                Log.error(LOG_SOURCE, error);
-
-                                reject(error);
-                            });
-                    })
-                    .catch(error => {
-
-                        Log.error(LOG_SOURCE, new Error("Mega Menu List does not exits."));
-
-                        reject(error);
-                    });
+                result = this._fetchFromSessionStorge();
+                if(result.length) {
+                    console.log("Got the result from session storage.");
+                    return resolve(result);
+                }
             }
 
+            console.log("After session step.");
+            // session storage is disabled, empty or corrupt so fetch menu items from the SharePoint list.
+            this._fetchFromSPList().then((items:Item[]) => {
 
-            resolve(result);
+                result = this._groupByCategory(items);
+
+                if(this._sessionStorageCacheEnabled) {
+
+                    console.log("window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);");
+
+                    // cache for the session for quick access.
+                    let jsonToString: string = JSON.stringify(result);
+                    window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);
+                }
+
+                return resolve(result);
+            });
         });
     }
 
+    /**
+     * Fetches the menu items from the browser session storage.
+     */
+    private _fetchFromSessionStorge(): MenuCategory[] {
+
+        let result: MenuCategory[] = [];
+
+        // get the list items from the session storage if available.
+        let stringResult: string = window.sessionStorage.getItem(this._sessionStorageKey);
+        if (stringResult) {
+            try {
+                result = JSON.parse(stringResult);
+            } catch(error) {
+                // somenthing is wrong on parse then proceed and fetch from server.
+                Log.error(LOG_SOURCE, error);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Fetches the menu items from the server, SharePoint mega menu list.
+     */
+    private _fetchFromSPList(): Promise<Item[]> {
+
+        return new Promise<Item[]>((resolve, reject) => {
+
+            let web: Web = new Web(this._webAbsoluteUrl);
+
+            web.lists.ensure("Mega Menu List")
+                .then((listResult: ListEnsureResult) => {
+
+                    listResult.list.items
+                        .select("ID", "MegaMenuCategory", "MegaMenuItemName", "MegaMenuItemUrl")
+                        .get()
+                        .then((items: Item[]) => {
+
+                            resolve(items);
+                        })
+                        .catch(error => {
+
+                            Log.error(LOG_SOURCE, new Error("Mega Menu List does not exits."));
+
+                            reject(error);
+                        });
+                })
+                .catch(error => {
+
+                    Log.error(LOG_SOURCE, new Error("Mega Menu List does not exits."));
+
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Groups the SharePoint list menu items by category.
+     * Would re-map the table structured data to json nested data.
+     * @param items SPListItem
+     */
     // tslint:disable:no-string-literal
-    private _map(items: Item[], ): MenuCategory[] {
+    private _groupByCategory(items: Item[], ): MenuCategory[] {
 
         let result: MenuCategory[] = [];
 
@@ -94,17 +143,23 @@ export class MenuSPListProvider implements IMenuProvider {
 
             let item: Item = items[i];
 
+            // init menu item.
             let menuItem: MenuItem = {
                 id: item["ID"],
                 name: item["MegaMenuItemName"],
                 url: item["MegaMenuItemUrl"]
             };
 
+            // check if category already exists in the result object.
             let categories: MenuCategory[] = result.filter(x => x.category === item["MegaMenuCategory"]);
 
             if (categories.length) {
+
+                // push to the existing category.
                 categories[0].items.push(menuItem);
             } else {
+
+                // add new category and push the new menu item.
                 result.push({ category: item["MegaMenuCategory"], items: [menuItem] } as MenuCategory);
             }
         }

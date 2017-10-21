@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
+import { Log } from "@microsoft/sp-core-library";
 import { override } from "@microsoft/decorators";
 import {
   BaseApplicationCustomizer,
@@ -20,11 +21,33 @@ import { IMenuProvider, MenuSPListProvider, MenuFakeProvider } from "./menuProvi
  * You can define an interface to describe it.
  */
 export interface IReactMegaMenuApplicationCustomizerProperties {
-  // if debug enabled then the customizer will use fake json data instead of
-  // existing sharepoitn list.
-  debug: boolean;
-  // should collect from the root mega menu list only.
+
+  /**
+   * If isDebug=true then the customizer will use fake json data instead of
+   * existing sharepoitn list.
+   * Note: that property in the debug url queryString should be:
+   *                  GOOD:{"isDebug":false}
+   *                  WRONG: {"isDebug":"false"}
+   */
+  isDebug: boolean;
+
+  /**
+   * If rootWebOnly=true then the mega menu should collect menu data from
+   *  the root site mega menu list only.
+   * Note: that property in the debug url queryString should be:
+   *                  GOOD:{"rootWebOnly":false}
+   *                  WRONG: {"rootWebOnly":"false"}
+   */
   rootWebOnly : boolean;
+
+  /**
+   * If enableSessionStorageCache=true then the menu items should be cached during
+   * the browser session in the local session storage for quick access.
+   * Note: that property in the debug url queryString should be:
+   *                  GOOD:{"enableSessionStorageCache":false}
+   *                  WRONG: {"enableSessionStorageCache":"false"}
+   */
+  enableSessionStorageCache: boolean;
 }
 
 /** A Custom Action which can be run during execution of a Client Side Application */
@@ -41,7 +64,7 @@ export default class ReactMegaMenuApplicationCustomizer
     const element: React.ReactElement<IMegaMenuProps> = React.createElement(
       MegaMenuComponent,
       {
-        menuProvider: new MenuFakeProvider()
+        menuProvider: this.getMenuProvider()
       }
     );
 
@@ -54,8 +77,9 @@ export default class ReactMegaMenuApplicationCustomizer
   protected getMenuProvider(): IMenuProvider {
 
     let result: IMenuProvider;
-    let debug: boolean = this.properties.debug;
+    let debug: boolean = this.properties.isDebug;
     let rootWebOnly: boolean = this.properties.rootWebOnly;
+    let enableSessionStorageCache: boolean = this.properties.enableSessionStorageCache;
 
     if (debug === true) {
 
@@ -74,7 +98,7 @@ export default class ReactMegaMenuApplicationCustomizer
           webUrl = this.context.pageContext.web.absoluteUrl;
         }
 
-        result = new MenuSPListProvider(webUrl);
+        result = new MenuSPListProvider(webUrl, enableSessionStorageCache);
     }
 
     return result;
