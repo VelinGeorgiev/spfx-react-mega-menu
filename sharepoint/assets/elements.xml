@@ -68,26 +68,31 @@
             Description=""
             TemplateType="100"
             Url="Lists/MegaMenu"
-            Hidden="FALSE">
+            Hidden="FALSE"
+            RootWebOnly="FALSE">
             <!-- Add default data with the list -->
             <!-- Note: Deactivating and activating the feature will 
-            duplicate the data, so remove or comment if no initial data needed
+            duplicate the data, so better remove for production scenarios.
             -->
             <Data>
                 <Rows>
                     <Row>
-                        <Field Name="MegaMenuCategory">Category1</Field>
-                        <Field Name="MegaMenuItemName">Site Pages Url</Field>
-                        <!-- Usage of Special Tokens (~site and ~sitecollection)
-                        Source: https://dev.office.com/sharepoint/docs/general-development/urls-and-tokens-in-sharepoint -->
-                        <Field Name="MegaMenuItemUrl">~site/SitePages/Forms/ByAuthor.aspx, URL Title1</Field>
+                        <Field Name="MegaMenuCategory">Department of Finance</Field>
+                        <Field Name="MegaMenuItemName">Economic</Field>
+                        <Field Name="MegaMenuItemUrl">https://blog.velingeorgiev.com/</Field>
+                        <Field Name="Title">Some text here so we can use the quick edit list feature</Field>
                     </Row>
                     <Row>
-                        <Field Name="MegaMenuCategory">Category2</Field>
-                        <Field Name="MegaMenuItemName">Site Pages Url</Field>
-                        <!-- Usage of Special Tokens (~site and ~sitecollection)
-                        Source: https://dev.office.com/sharepoint/docs/general-development/urls-and-tokens-in-sharepoint -->
-                        <Field Name="MegaMenuItemUrl">~site/SitePages/Forms/ByAuthor.aspx, URL Title2</Field>
+                        <Field Name="MegaMenuCategory">Department of Finance</Field>
+                        <Field Name="MegaMenuItemName">Banking</Field>
+                        <Field Name="MegaMenuItemUrl">https://blog.velingeorgiev.com/</Field>
+                        <Field Name="Title">Some text here so we can use the quick edit list feature</Field>
+                    </Row>
+                    <Row>
+                        <Field Name="MegaMenuCategory">Department of Education and Skills</Field>
+                        <Field Name="MegaMenuItemName">School Holidays</Field>
+                        <Field Name="MegaMenuItemUrl">https://blog.velingeorgiev.com/</Field>
+                        <Field Name="Title">Some text here so we can use the quick edit list feature</Field>
                     </Row>
                 </Rows>
             </Data>

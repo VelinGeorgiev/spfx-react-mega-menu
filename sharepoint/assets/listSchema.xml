@@ -31,6 +31,8 @@
                     Description=""
                     >
             <FieldRefs>
+                <!--Title Site Column -->
+                <FieldRef ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Required="FALSE" ShowInNewForm="FALSE" ShowInEditForm="FALSE" />
                 <!-- MegaMenuCategory Site Column -->
                 <FieldRef ID="{f4e5dd71-448f-40e2-b991-35874a0d7fd6}" Required="TRUE" ShowInNewForm="TRUE" ShowInEditForm="TRUE" />
                 <!-- MegaMenuItemName Site Column -->
@@ -61,6 +63,8 @@
           <FieldRef Name="MegaMenuCategory" linkToItem="TRUE"></FieldRef>
           <FieldRef Name="MegaMenuItemName"></FieldRef>
           <FieldRef Name="MegaMenuItemUrl"></FieldRef>
+           <!-- Needed for Quick Edit List Feature -->
+          <FieldRef Name="LinkTitle"></FieldRef>
         </ViewFields>
         <Query>
           <OrderBy>
