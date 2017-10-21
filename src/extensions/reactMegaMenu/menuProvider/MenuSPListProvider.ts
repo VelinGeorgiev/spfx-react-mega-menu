@@ -26,12 +26,13 @@ export class MenuSPListProvider implements IMenuProvider {
     /**
      * Browser session storage unique key.
      */
-    private readonly _sessionStorageKey: string = "MegaMenuFormattedList";
+    private readonly _sessionStorageKey: string = "MegaMenuFormattedList_";
 
     constructor(webAbsoluteUrl: string, enableSessionStorageCache: boolean = false) {
 
         this._webAbsoluteUrl = webAbsoluteUrl;
         this._sessionStorageCacheEnabled = enableSessionStorageCache;
+        this._sessionStorageKey += webAbsoluteUrl;
     }
 
     /**
@@ -60,7 +61,7 @@ export class MenuSPListProvider implements IMenuProvider {
 
                     // cache for the session for quick access.
                     let jsonToString: string = JSON.stringify(result);
-                    window.sessionStorage.setItem(this._sessionStorageKey, jsonToString);
+                    window.sessionStorage.setItem(, jsonToString);
                 }
 
                 return resolve(result);
