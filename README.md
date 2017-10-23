@@ -102,12 +102,9 @@ https://tenant.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?debugManife
 
 This Web Part illustrates the following concepts on top of the SharePoint Framework:
 
-- Using React for building SharePoint Framework client-side web parts.
+- Using React for building SharePoint Framework client-side solutions.
 - Using Office UI Fabric React styles for building user experience consistent with SharePoint and Office.
-- On-demand authentication with Yammer using the Yammer JavaScript SDK.
-- Communicating with Yammer using its REST APIs.
-- Passing web part properties to React components.
-- Passing localized strings to React components.
+- Passing SPFx extention properties to React components.
 - Unit tests including spies, mocks and faking class methods and properties with stubs.
 
 <img src="https://telemetry.sharepointpnp.com/sp-dev-fx-extensions/samples/spfx-react-mega-menu" />
