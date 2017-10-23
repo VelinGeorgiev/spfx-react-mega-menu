@@ -16,7 +16,7 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
     super(props);
 
     this.state = {
-      showPanel: true,
+      showPanel: false,
       menuItems: []
     };
   }
