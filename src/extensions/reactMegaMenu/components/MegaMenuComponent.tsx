@@ -36,7 +36,7 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
   public render(): React.ReactElement<IMegaMenuProps> {
     return (
       <div>
-        <DefaultButton className={styles.menuButton}
+        <DefaultButton data-id="menuButton" className={styles.menuButton}
           title="SPFx React Mega Menu"
           text="SPFx React Mega Menu"
           ariaLabel="SPFx React Mega Menu"
@@ -48,20 +48,20 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
           onDismiss={this.hideMenu.bind(this)}
           headerText="SPFx React Mega Menu"
         >
-        <div className={styles.grid}>
+        <div data-id="menuPanel" className={styles.grid}>
           <div className={styles.row}>
           {
-            this.state.menuItems.map((menuCategory: MenuCategory) => {
-              return <div className={styles.col6}>
+            this.state.menuItems.map((menuCategory: MenuCategory, categoryIndex: number) => {
+              return <div key={categoryIndex} className={styles.col6}>
 
-                        <div className={styles.categoryItem}>
+                        <div data-id={`${menuCategory.category}`} className={styles.categoryItem}>
                           {menuCategory.category}
                         </div>
 
                         {
-                          menuCategory.items.map((item: MenuItem) => {
+                          menuCategory.items.map((item: MenuItem, itemIndex: number) => {
 
-                            return <div className={styles.menuItem}>
+                            return <div data-id={`${item.id}`} key={itemIndex} className={styles.menuItem}>
                                       <a href={item.url}>{item.name}</a>
                                     </div>;
                           })
