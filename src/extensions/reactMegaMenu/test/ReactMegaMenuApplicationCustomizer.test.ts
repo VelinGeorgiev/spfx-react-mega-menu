@@ -62,7 +62,7 @@ describe("ReactMegaMenuApplicationCustomizer menu closed", () => {
   after(() => {
     componentDidMountSpy.restore();
     menuProviderStub.restore();
- });
+  });
 
   it("should button be visible", () => {
 
@@ -153,22 +153,23 @@ describe("ReactMegaMenuApplicationCustomizer menu opened", () => {
     let menuButton: ReactWrapper<React.AllHTMLAttributes<{}>>;
     menuButton = reactComponent.find("[data-id='menuButton']").first();
 
-    menuButton.simulate("click");
+    menuButton.simulate("click"); // open the menu.
 
-    setTimeout(done, 200); // all the menu should be loaded after 200.
+    setTimeout(done, 50); // all the menu items should be loaded after 200.
   });
 
   /**
    * At that stage the menu is open so let's verify
    * that some stuff exist on the newly loaded panel
    * with menu categories and items.
+   * We cant use enzyme to find html element since the panel is outside of our react component,
+   * therefore go back to vanila JavaScript element selectors.
    */
-  it("should menu be visible after button click", () => {
+  it("should menu be visible", () => {
 
-    let menu: ReactWrapper<React.AllHTMLAttributes<{}>>;
-    menu = reactComponent.find("[data-id='menuPanel']").first();
+    let menu: Element = document.querySelector("div[data-id='menuPanel']");
 
-    expect(menu.length).to.be.greaterThan(0);
+    expect(menu).to.not.be.equal(null);
   });
 
   it("should showPanel state changed to true", () => {
@@ -177,16 +178,18 @@ describe("ReactMegaMenuApplicationCustomizer menu opened", () => {
   });
 
   it("should has rendered just two menu category elements", () => {
-    let menuCategories: ReactWrapper<React.AllHTMLAttributes<{}>>;
-    menuCategories = reactComponent.find("[class|='categoryItem']");
+
+    let menuCategories: NodeListOf<Element>;
+    menuCategories = document.querySelectorAll("[class*='categoryItem']");
 
     expect(menuCategories.length).to.be.equal(2);
   });
 
   it("should has rendered just three menu item elements", () => {
-    let menuItems: ReactWrapper<React.AllHTMLAttributes<{}>>;
-    menuItems = reactComponent.find("[class|='menuItem']");
 
-    expect(menuItems.length).to.be.equal(2);
+    let menuItems: NodeListOf<Element>;
+    menuItems = document.querySelectorAll("[class*='menuItem']");
+
+    expect(menuItems.length).to.be.equal(3);
   });
 });
