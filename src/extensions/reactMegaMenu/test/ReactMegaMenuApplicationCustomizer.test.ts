@@ -74,14 +74,11 @@ describe("ReactMegaMenuApplicationCustomizer menu closed", () => {
     expect(menuButton.length).to.be.greaterThan(0);
   });
 
-  it("should panel not be visible", () => {
+  it("should menu element be null", () => {
 
-    let cssSelector: string = "[data-id='menuPanel']";
+    let menu: Element = document.querySelector("div[data-id='menuPanel']");
 
-    let menuButton: ReactWrapper<React.AllHTMLAttributes<{}>>;
-    menuButton = reactComponent.find(cssSelector);
-
-    expect(menuButton.length).to.be.equal(0);
+    expect(menu).to.be.equal(null);
   });
 
   it("should initial state be null", () => {
@@ -191,5 +188,31 @@ describe("ReactMegaMenuApplicationCustomizer menu opened", () => {
     menuItems = document.querySelectorAll("[class*='menuItem']");
 
     expect(menuItems.length).to.be.equal(3);
+  });
+
+  it("verify Department of Finance category and items", () => {
+
+    let category: Element;
+    category = document.querySelector("[data-id='Department of Finance']");
+
+    let categoryText: string = category.querySelector("[class*='categoryItem']").innerHTML;
+    let economicText: string = (category.querySelector("[data-id='1'] a") as HTMLAnchorElement).text;
+    let bankingText: string = (category.querySelector("[data-id='2'] a") as HTMLAnchorElement).text;
+
+    expect(categoryText).to.be.equal("Department of Finance");
+    expect(economicText).to.be.equal("Economic");
+    expect(bankingText).to.be.equal("Banking");
+  });
+
+  it("verify Department of Education and Skills category and items", () => {
+
+    let category: Element;
+    category = document.querySelector("[data-id='Department of Education and Skills']");
+
+    let categoryText: string = category.querySelector("[class*='categoryItem']").innerHTML;
+    let holidaysText: string = (category.querySelector("[data-id='3'] a") as HTMLAnchorElement).text;
+
+    expect(categoryText).to.be.equal("Department of Education and Skills");
+    expect(holidaysText).to.be.equal("School Holidays");
   });
 });

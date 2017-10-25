@@ -52,9 +52,9 @@ export default class MegaMenuComponent extends React.Component<IMegaMenuProps, I
           <div className={styles.row}>
           {
             this.state.menuItems.map((menuCategory: MenuCategory, categoryIndex: number) => {
-              return <div key={categoryIndex} className={styles.col6}>
+              return <div data-id={`${menuCategory.category}`} key={categoryIndex} className={styles.col6}>
 
-                        <div data-id={`${menuCategory.category}`} className={styles.categoryItem}>
+                        <div className={styles.categoryItem}>
                           {menuCategory.category}
                         </div>
 
